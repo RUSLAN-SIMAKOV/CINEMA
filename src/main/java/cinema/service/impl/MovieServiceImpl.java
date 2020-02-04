@@ -15,8 +15,6 @@ public class MovieServiceImpl implements MovieService {
     @Inject
     private MovieDao movieDao;
 
-    private static final Logger LOGGER = Logger.getLogger(MovieServiceImpl.class);
-
     @Override
     public Movie add(Movie movie) {
         return movieDao.add(movie);
@@ -27,8 +25,7 @@ public class MovieServiceImpl implements MovieService {
         try {
             return movieDao.getAll();
         } catch (DataProcessingException e) {
-            LOGGER.error("Can not get all movies!", e);
+            throw new RuntimeException("Can not get all Movie entity", e);
         }
-        return null;
     }
 }
