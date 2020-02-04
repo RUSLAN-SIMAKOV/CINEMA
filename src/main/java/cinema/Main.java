@@ -1,6 +1,5 @@
 package cinema;
 
-import cinema.exception.DataProcessingException;
 import cinema.lib.Injector;
 import cinema.model.Movie;
 import cinema.service.MovieService;
@@ -16,10 +15,6 @@ public class Main {
         MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
         movieService.add(movie);
 
-        try {
-            movieService.getAll().forEach(System.out::println);
-        } catch (DataProcessingException e) {
-            e.printStackTrace();
-        }
+        movieService.getAll().forEach(System.out::println);
     }
 }
