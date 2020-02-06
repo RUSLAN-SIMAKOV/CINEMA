@@ -1,5 +1,6 @@
 package cinema;
 
+import javax.naming.AuthenticationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,7 +19,7 @@ public class Main {
 
     private static Injector injector = Injector.getInstance("cinema");
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AuthenticationException {
         Movie movie = new Movie();
         movie.setTitle("Fast and Furious");
         movie.setDescription("MF");
@@ -47,6 +48,7 @@ public class Main {
         AuthenticationService authenticationService
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
         authenticationService.register("user1email", "111");
-        System.out.println(authenticationService.login("user1email", "111"));
+        authenticationService.register("user1email", "222");
+        System.out.println(authenticationService.login("user1email", "1211"));
     }
 }
