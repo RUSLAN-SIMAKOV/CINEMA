@@ -5,9 +5,11 @@ import java.util.List;
 import cinema.dao.MovieSessionDao;
 import cinema.exception.DataProcessingException;
 import cinema.lib.Inject;
+import cinema.lib.Service;
 import cinema.model.MovieSession;
 import cinema.service.MovieSessionService;
 
+@Service
 public class MovieSessionServiceImpl implements MovieSessionService {
 
     @Inject
