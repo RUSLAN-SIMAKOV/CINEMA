@@ -1,6 +1,7 @@
 package cinema.service.impl;
 
 import javax.naming.AuthenticationException;
+import cinema.exception.DataProcessingException;
 import cinema.lib.Inject;
 import cinema.lib.Service;
 import cinema.model.User;
@@ -29,17 +30,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public User register(String email, String password) throws AuthenticationException {
-
-        if (userService.findByEmail(email) == null) {
-            User user = new User();
-            user.setEmail(email);
-            user.setPassword(password);
-            userService.add(user);
-            user = userService.findByEmail(email);
-            shoppingCartService.registerNewShoppingCart(user);
-            return user;
-        }
-        throw new AuthenticationException("User with this email already exist");
+    public User register(String email, String password) {
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        userService.add(user);
+        user = userService.findByEmail(email);
+        shoppingCartService.registerNewShoppingCart(user);
+        return user;
     }
 }

@@ -20,18 +20,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private static TicketDao ticketDao;
 
     @Override
-    public ShoppingCart add(ShoppingCart shoppingCart) {
-        return shoppingCartDao.add(shoppingCart);
-    }
-
-    @Override
     public ShoppingCart getByUser(User user) {
         return shoppingCartDao.getByUser(user);
-    }
-
-    @Override
-    public void update(ShoppingCart shoppingCart) {
-        shoppingCartDao.update(shoppingCart);
     }
 
     @Override
