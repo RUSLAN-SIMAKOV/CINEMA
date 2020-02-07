@@ -4,15 +4,18 @@ import javax.naming.AuthenticationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import cinema.lib.Injector;
 import cinema.model.CinemaHall;
 import cinema.model.Movie;
 import cinema.model.MovieSession;
+import cinema.model.ShoppingCart;
 import cinema.model.User;
 import cinema.service.AuthenticationService;
 import cinema.service.CinemaHallService;
 import cinema.service.MovieService;
 import cinema.service.MovieSessionService;
+import cinema.service.ShoppingCartService;
 import cinema.service.UserService;
 
 public class Main {
@@ -42,13 +45,19 @@ public class Main {
         movieSession.setCinemaHall(cinemaHall);
         movieSession.setShowTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 12)));
         movieSessionService.add(movieSession);
-        movieSessionService.findAvailableSessions(movie.getId(), LocalDate.now())
-                .forEach(System.out::println);
+        List<MovieSession> availableMovieSession = movieSessionService.findAvailableSessions(movie.getId(), LocalDate.now());
+        availableMovieSession.forEach(System.out::println);
 
         AuthenticationService authenticationService
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        authenticationService.register("user1email", "111");
-        authenticationService.register("user1email", "222");
-        System.out.println(authenticationService.login("user1email", "1211"));
+        User user = authenticationService.register("user1email", "111");
+        //User user2 = authenticationService.register("user1email1", "222");
+        //System.out.println(authenticationService.login("user1email", "111"));
+
+        ShoppingCartService shoppingCartService
+                = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        MovieSession selectMovieSession = availableMovieSession.get(0);
+        shoppingCartService.addSession(selectMovieSession, user);
+        ShoppingCart userBucket = shoppingCartService.getByUser(user);
     }
 }
