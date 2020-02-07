@@ -1,10 +1,12 @@
 package cinema.service.impl;
 
 import javax.naming.AuthenticationException;
+import cinema.exception.DataProcessingException;
 import cinema.lib.Inject;
 import cinema.lib.Service;
 import cinema.model.User;
 import cinema.service.AuthenticationService;
+import cinema.service.ShoppingCartService;
 import cinema.service.UserService;
 import cinema.util.HashUtil;
 
@@ -13,6 +15,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Inject
     private static UserService userService;
+
+    @Inject
+    private static ShoppingCartService shoppingCartService;
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
@@ -26,13 +31,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User register(String email, String password) {
-
-        if (userService.findByEmail(email) == null) {
-            User user = new User();
-            user.setEmail(email);
-            user.setPassword(password);
-            userService.add(user);
-        }
-        return userService.findByEmail(email);
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        userService.add(user);
+        user = userService.findByEmail(email);
+        shoppingCartService.registerNewShoppingCart(user);
+        return user;
     }
 }
