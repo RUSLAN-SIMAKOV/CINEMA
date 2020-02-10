@@ -16,9 +16,9 @@ import cinema.service.ShoppingCartService;
 public class OrderServiceImpl implements OrderService {
 
     @Inject
-    private static ShoppingCartService shoppingCartService;
+    private ShoppingCartService shoppingCartService;
     @Inject
-    private static OrderDao orderDao;
+    private OrderDao orderDao;
 
     @Override
     public Order completeOrder(List<Ticket> tickets, User user) {
@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(LocalDateTime.now());
         order.setTickets(tickets);
         shoppingCartService.clear(shoppingCart);
-        return orderDao.completeOrder(order);
+        return orderDao.add(order);
     }
 
     @Override

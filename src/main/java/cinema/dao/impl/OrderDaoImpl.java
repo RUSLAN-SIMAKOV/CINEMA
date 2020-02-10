@@ -18,13 +18,13 @@ import org.hibernate.query.Query;
 public class OrderDaoImpl implements OrderDao {
 
     @Override
-    public Order completeOrder(Order order) {
+    public Order add(Order order) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            Long itemId = (Long) session.save(order);
+            Long orderId = (Long) session.save(order);
             transaction.commit();
-            order.setId(itemId);
+            order.setId(orderId);
             return order;
         } catch (Exception e) {
             if (transaction != null) {

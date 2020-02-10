@@ -1,7 +1,6 @@
 package cinema.service.impl;
 
 import java.util.ArrayList;
-import cinema.dao.OrderDao;
 import cinema.dao.ShoppingCartDao;
 import cinema.dao.TicketDao;
 import cinema.lib.Inject;
@@ -16,13 +15,10 @@ import cinema.service.ShoppingCartService;
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Inject
-    private static ShoppingCartDao shoppingCartDao;
+    private ShoppingCartDao shoppingCartDao;
 
     @Inject
-    private static TicketDao ticketDao;
-
-    @Inject
-    private static OrderDao orderDao;
+    private TicketDao ticketDao;
 
     @Override
     public ShoppingCart getByUser(User user) {
