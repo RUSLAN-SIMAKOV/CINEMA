@@ -15,6 +15,7 @@ import cinema.service.AuthenticationService;
 import cinema.service.CinemaHallService;
 import cinema.service.MovieService;
 import cinema.service.MovieSessionService;
+import cinema.service.OrderService;
 import cinema.service.ShoppingCartService;
 import cinema.service.UserService;
 
@@ -57,5 +58,10 @@ public class Main {
         MovieSession selectMovieSession = availableMovieSession.get(0);
         shoppingCartService.addSession(selectMovieSession, user);
         ShoppingCart userBucket = shoppingCartService.getByUser(user);
+
+        OrderService orderService
+                = (OrderService) injector.getInstance(OrderService.class);
+        orderService.completeOrder(userBucket.getTickets(), user);
+        orderService.getOrderHistory(user);
     }
 }
