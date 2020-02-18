@@ -21,7 +21,7 @@ public class ShoppingCart {
     private Long id;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Ticket> tickets;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @MapsId
     @JoinColumn(name = "shopping_cart_id")
     private User user;

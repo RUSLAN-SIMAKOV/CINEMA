@@ -6,20 +6,24 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import cinema.dao.CinemaHallDao;
 import cinema.exception.DataProcessingException;
-import cinema.lib.Dao;
 import cinema.model.CinemaHall;
-import cinema.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class CinemaHallDaoImpl implements CinemaHallDao {
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
     public CinemaHall add(CinemaHall cinemaHall) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Long itemId = (Long) session.save(cinemaHall);
             transaction.commit();
@@ -35,7 +39,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
 
     @Override
     public List<CinemaHall> getAll() throws DataProcessingException {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<CinemaHall> query = builder.createQuery(CinemaHall.class);
             Root<CinemaHall> root = query.from(CinemaHall.class);

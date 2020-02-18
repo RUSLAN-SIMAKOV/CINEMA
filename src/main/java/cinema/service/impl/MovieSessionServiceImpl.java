@@ -4,15 +4,16 @@ import java.time.LocalDate;
 import java.util.List;
 import cinema.dao.MovieSessionDao;
 import cinema.exception.DataProcessingException;
-import cinema.lib.Inject;
-import cinema.lib.Service;
 import cinema.model.MovieSession;
 import cinema.service.MovieSessionService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MovieSessionServiceImpl implements MovieSessionService {
 
-    @Inject
+    @Autowired
     private MovieSessionDao movieSessionDao;
 
     @Override
