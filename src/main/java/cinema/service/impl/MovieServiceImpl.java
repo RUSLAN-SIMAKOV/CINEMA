@@ -3,16 +3,15 @@ package cinema.service.impl;
 import java.util.List;
 import cinema.dao.MovieDao;
 import cinema.exception.DataProcessingException;
-import cinema.lib.Inject;
-import cinema.lib.Service;
 import cinema.model.Movie;
 import cinema.service.MovieService;
-import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    @Inject
+    @Autowired
     private MovieDao movieDao;
 
     @Override

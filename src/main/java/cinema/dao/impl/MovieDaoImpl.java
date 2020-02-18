@@ -6,21 +6,24 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import cinema.dao.MovieDao;
 import cinema.exception.DataProcessingException;
-import cinema.lib.Dao;
 import cinema.model.Movie;
-import cinema.util.HibernateUtil;
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class MovieDaoImpl implements MovieDao {
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     public Movie add(Movie movie) {
 
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Long itemId = (Long) session.save(movie);
             transaction.commit();
@@ -35,7 +38,7 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     public List<Movie> getAll() throws DataProcessingException {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
             Root<Movie> root = query.from(Movie.class);

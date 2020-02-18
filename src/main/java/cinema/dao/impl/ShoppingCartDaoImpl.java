@@ -1,27 +1,26 @@
 package cinema.dao.impl;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.List;
 import cinema.dao.ShoppingCartDao;
 import cinema.exception.DataProcessingException;
-import cinema.lib.Dao;
 import cinema.model.ShoppingCart;
-import cinema.model.Ticket;
 import cinema.model.User;
-import cinema.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class ShoppingCartDaoImpl implements ShoppingCartDao {
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
     public ShoppingCart add(ShoppingCart shoppingCart) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Long itemId = (Long) session.save(shoppingCart);
             transaction.commit();
@@ -37,8 +36,9 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
 
     @Override
     public ShoppingCart getByUser(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<ShoppingCart> query = session.createQuery("select s from ShoppingCart s join s.user u where u.id = :id");
+        try (Session session = sessionFactory.openSession()) {
+            Query<ShoppingCart> query = session
+                    .createQuery("select s from ShoppingCart s join s.user u where u.id = :id");
             query.setParameter("id", user.getId());
             return query.getSingleResult();
 
@@ -48,7 +48,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     @Override
     public void update(ShoppingCart shoppingCart) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.update(shoppingCart);
             transaction.commit();

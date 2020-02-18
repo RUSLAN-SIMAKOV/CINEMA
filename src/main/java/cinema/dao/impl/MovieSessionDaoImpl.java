@@ -9,20 +9,24 @@ import java.time.LocalTime;
 import java.util.List;
 import cinema.dao.MovieSessionDao;
 import cinema.exception.DataProcessingException;
-import cinema.lib.Dao;
 import cinema.model.MovieSession;
-import cinema.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class MovieSessionDaoImpl implements MovieSessionDao {
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
     public MovieSession add(MovieSession movieSession) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Long itemId = (Long) session.save(movieSession);
             transaction.commit();
@@ -39,7 +43,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date)
             throws DataProcessingException {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<MovieSession> query = builder.createQuery(MovieSession.class);
             Root<MovieSession> root = query.from(MovieSession.class);
