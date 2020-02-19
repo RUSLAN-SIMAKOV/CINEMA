@@ -8,5 +8,7 @@ public interface MovieSessionService {
 
         MovieSession add(MovieSession movieSession);
 
+        MovieSession getByMovieSessionId(Long movieSessionId);
+
         List<MovieSession> findAvailableSessions(Long movieId, LocalDate date);
 }
