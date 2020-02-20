@@ -32,8 +32,8 @@ public class MovieSessionController {
     @Autowired
     private MovieService movieService;
 
-    @PostMapping(value = "/")
-    private void addMovieSession(@RequestBody MovieSessionDto movieSessionDto) {
+    @PostMapping(value = "/add")
+    private void addMovieSession(@RequestBody MovieSessionDto movieSessionDto) throws BadRequestException {
         MovieSession movieSession = new MovieSession();
         movieSession.setCinemaHall(cinemaHallService.getAll().stream()
                 .filter(c -> c.getDescription().equals(movieSessionDto.getCinemaHallDescription()))
@@ -52,7 +52,7 @@ public class MovieSessionController {
                                           @RequestParam(name = "date") String date) {
         List<MovieSession> movieSessions = movieSessionService
                 .findAvailableSessions(Long.parseLong(movieId), LocalDate.parse(date));
-        return movieSessions.stream().map(m -> getMovieSessionDto(m)).collect(toList());
+        return movieSessions.stream().map(this::getMovieSessionDto).collect(toList());
     }
 
     private MovieSessionDto getMovieSessionDto(MovieSession movieSession) {

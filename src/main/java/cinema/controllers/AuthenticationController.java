@@ -11,20 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/auth")
+@RequestMapping
 public class AuthenticationController {
 
     @Autowired
     private AuthenticationService authenticationService;
 
     @PostMapping(value = "/login")
-    private void login(@RequestBody UserDto userDto) throws AuthenticationException {
+    private String login(@RequestBody UserDto userDto) throws AuthenticationException {
         authenticationService.login(userDto.getEmail(), userDto.getPassword());
+        return "Successful";
     }
 
     @PostMapping(value = "/register")
-    private void register(@RequestBody UserDto userDto) throws AuthenticationException {
+    private String register(@RequestBody UserDto userDto) throws AuthenticationException {
         authenticationService.register(userDto.getEmail(), userDto.getPassword());
+        return "Successful";
     }
 
 }

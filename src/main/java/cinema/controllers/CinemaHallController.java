@@ -20,7 +20,7 @@ public class CinemaHallController {
     @Autowired
     private CinemaHallService cinemaHallService;
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/add")
     private void addCinemaHall(@RequestBody CinemaHallDto cinemaHallDto) {
         CinemaHall cinemaHall = new CinemaHall();
         cinemaHall.setDescription(cinemaHallDto.getDescription());
@@ -28,8 +28,8 @@ public class CinemaHallController {
         cinemaHallService.add(cinemaHall);
     }
 
-    @GetMapping(value = "/")
-    private List<CinemaHallDto> getAllCinemaHall() {
+    @GetMapping
+    private List<CinemaHallDto> getAllCinemaHalls() {
         List<CinemaHall> cinemaHall = cinemaHallService.getAll();
         return cinemaHall.stream().map(c -> getCinemaHallDto(c)).collect(toList());
     }

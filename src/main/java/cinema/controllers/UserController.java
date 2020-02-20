@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/add")
     private void addUser(@RequestBody UserDto userDto) {
         User user = new User();
         user.setEmail(userDto.getEmail());

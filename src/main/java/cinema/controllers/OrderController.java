@@ -39,10 +39,10 @@ public class OrderController {
                 .findByEmail(orderDto.getUserEmail()));
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/history")
     private List<OrderResponseDto> getOrderHistory(@RequestParam(name = "email") String email) {
         List<Order> orders = orderService.getOrderHistory(userService.findByEmail(email));
-        return orders.stream().map(o -> getOrderDto(o)).collect(toList());
+        return orders.stream().map(this::getOrderDto).collect(toList());
     }
 
     private OrderResponseDto getOrderDto(Order order) {
@@ -50,12 +50,7 @@ public class OrderController {
         orderResponseDto.setOrderDate(order.getOrderDate());
         orderResponseDto.setUser(order.getUser().toString());
         orderResponseDto.setTickets(order.getTickets().stream()
-                .map(t -> getOrderResponse(t)).collect(toList()));
+                .map(Ticket::toString).collect(toList()));
         return orderResponseDto;
-    }
-
-    private String getOrderResponse(Ticket t) {
-        String ticket = t.toString();
-        return ticket;
     }
 }

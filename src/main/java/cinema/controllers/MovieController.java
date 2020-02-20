@@ -20,7 +20,7 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/add")
     private void addMovie(@RequestBody MovieDto movieDto) {
         Movie movie = new Movie();
         movie.setTitle(movieDto.getTitle());
@@ -28,10 +28,10 @@ public class MovieController {
         movieService.add(movie);
     }
 
-    @GetMapping(value = "/")
+    @GetMapping
     private List<MovieDto> getAllMoveis() {
         List<Movie> movies = movieService.getAll();
-        return movies.stream().map(m -> getMovieDto(m)).collect(toList());
+        return movies.stream().map(this::getMovieDto).collect(toList());
     }
 
     private MovieDto getMovieDto(Movie movie) {

@@ -40,13 +40,10 @@ public class ShoppingCartController {
     private ShoppingCartDto getAllMovieSessions(@RequestParam(name = "email") String email) {
         ShoppingCartDto shoppingCartDto = new ShoppingCartDto();
         ShoppingCart shoppingCart = shoppingCartService.getByUser(userService.findByEmail(email));
-        shoppingCartDto.setTickets(shoppingCart.getTickets().stream().map(t -> getListTicketsDto(t)).collect(toList()));
+        shoppingCartDto.setTickets(shoppingCart.getTickets().stream()
+                .map(Ticket::toString)
+                .collect(toList()));
         shoppingCartDto.setUserId("" + userService.findByEmail(email).getId());
         return shoppingCartDto;
-    }
-
-    private String getListTicketsDto(Ticket ticket) {
-        String ticketDto = ticket.toString();
-        return ticketDto;
     }
 }
