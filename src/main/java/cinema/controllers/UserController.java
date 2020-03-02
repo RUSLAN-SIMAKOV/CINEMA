@@ -1,8 +1,11 @@
 package cinema.controllers;
 
 import cinema.dto.UserDto;
+import cinema.model.Role;
 import cinema.model.User;
 import cinema.service.UserService;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +24,12 @@ public class UserController {
 
     @PostMapping(value = "/add")
     private void addUser(@RequestBody UserDto userDto) {
+        List<Role> roles = new ArrayList<>();
+        Role userRole = new Role("USER");
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
+        user.setRoles(roles);
         userService.add(user);
     }
 
