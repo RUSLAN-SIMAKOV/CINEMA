@@ -5,6 +5,7 @@ import cinema.model.Role;
 import cinema.model.User;
 import cinema.service.UserService;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,10 @@ public class UserController {
 
     @PostMapping(value = "/add")
     private void addUser(@RequestBody UserDto userDto) {
-        List<Role> roles = new ArrayList<>();
-        Role userRole = new Role("USER");
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        user.setRoles(roles);
+        user.setRoles(Collections.singleton(Role.USER));
         userService.add(user);
     }
 
