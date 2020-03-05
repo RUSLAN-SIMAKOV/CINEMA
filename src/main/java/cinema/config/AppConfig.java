@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 @Configuration
-@ComponentScan(basePackages = {"cinema.service", "cinema.dao"})
+@ComponentScan(basePackages = {"cinema.service", "cinema.dao", "cinema.security"})
 public class AppConfig {
 
     @Bean

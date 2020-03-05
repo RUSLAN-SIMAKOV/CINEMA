@@ -1,8 +1,12 @@
 package cinema.controllers;
 
 import cinema.dto.UserDto;
+import cinema.model.Role;
 import cinema.model.User;
 import cinema.service.UserService;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +28,7 @@ public class UserController {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
+        user.setRoles(Collections.singleton(Role.USER));
         userService.add(user);
     }
 
